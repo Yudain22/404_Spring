@@ -88,23 +88,52 @@
                         <%--                        페이징 부트스트랩의 컴포넌트 요소 넣기--%>
                         <div class="center-float">
                             <ul class="pagination flex=wrap">
-                            <%--                            이전 버튼 표시--%>
-                            <c:if test="${responseDTO.prev}">
-                                <li class="page-item">
-                                    <a class="page-link">이전</a>
-                                </li>
-                            </c:if>
-<%--                                페이지 번호 버튼 표시--%>
+                                <%--                            이전 버튼 표시--%>
+                                <c:if test="${responseDTO.prev}">
+                                    <li class="page-item">
+                                        <a class="page-link" data-num="${responseDTO.start - 1}">이전</a>
+                                    </li>
+                                </c:if>
+                                <%--                                현재 페이지 버튼 표시--%>
                                 <c:forEach begin="${responseDTO.start}" end="${responseDTO.end}" var="num">
-                                    <li class="page-item"><a class="page-link" href="#">${num}</a></li>
+                                    <li class="page-item ${responseDTO.page == num ? "active" :""}
+"><a class="page-link" data-num="${num}">${num}</a></li>
                                 </c:forEach>
                                 <%--                                    다음버튼표시--%>
                                 <c:if test="${responseDTO.next}">
                                     <li class="page-item">
-                                        <a class="page-link">다음</a>
+                                        <a class="page-link" data-num="${responseDTO.end + 1}">다음</a>
                                     </li>
                                 </c:if>
                             </ul>
+                            <script>
+                                //클래스 명 : pagination 이용해서 요소를 선택하고
+                                //이벤트 핸들러를 추가함
+                                document.querySelector(".pagination").addEventListener("click", function (e) { //e:event
+                                    //기본적인 기능을 방지하는 함수
+                                    e.preventDefault()
+                                    e.stopPropagation()
+
+                                    const target = e.target
+
+                                    //tagName의 이름이 A가 아니라면 함수를 나가고
+                                    if (target.tagName !== 'A') {
+                                        return
+                                    }
+
+                                    //tagName의 이름이 A이면 함수를 실행한다.
+                                    //현재 페이지의 번호를 가져오기
+                                    const num = target.getAttribute("data-num")
+
+                                    // 해당 페이지로 이동하기.
+                                    // 스프링의 벡엔드 서버에 호출하면, 서버가 응답해서,
+                                    // 해당 페이지로 리다이렉트 함. page 값과, size 을가지고
+                                    // 정확히 하면 PageRequestDTO에 담아서 호출하고,
+                                    // 서버는 PageResponseDTO에 담아서 화면에 보내고,
+                                    // 화면은 해당 인스턴스 이용해서, 화면에 출력하는 형식.
+                                    self.location = `/todo/list?page=\${num}`
+                                }, false)
+                            </script>
                             </nav>
                         </div>
 

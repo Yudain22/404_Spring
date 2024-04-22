@@ -19,6 +19,13 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <title>Hello, world!</title>
+    <style>
+        .center-float {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
@@ -65,7 +72,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items = "${dtoList}" var="dto">
+<%--                            페이징 처리부분 서버에서 전달받은 모델 인스턴스를 불러와서 화면에 이용하기--%>
+                            <c:forEach items = "${responseDTO.dtoList}" var="dto">
                                 <tr>
                                     <th scope="row"><c:out value="${dto.tno}"/> </th>
                                     <td><a href="/todo/read?tno=${dto.tno}" class="text-decoration-none">
@@ -77,6 +85,25 @@
                             </c:forEach>
                             </tbody>
                         </table>
+<%--                        페이징 부트스트랩의 컴포넌트 요소 넣기--%>
+                        <div class="center-float">
+                                <ul class="pagination flex=wrap">
+                                    <c:if test="${responseDTO.prev}">
+                                        <li class="page-item">
+                                            <a class="page-link">Previous</a>
+                                        </li>
+                                    </c:if>
+                                    <c:forEach begin="${responseDTO.start}" end = "${responseDTO.end}" var="num">
+                                    <li class="page-item"><a class="page-link" href="#">${num}</a></li>
+                                    </c:forEach>
+                                    <c:if test="${responseDTO.next}">
+                                        <li class="page-item">
+                                            <a class="page-link">Next</a>
+                                        </li>
+                                    </c:if>
+                                </ul>
+                            </nav>
+                        </div>
 
                     </div>
                 </div>

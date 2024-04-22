@@ -15,6 +15,10 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PageRequestDTO {
+    //PageRequestDTO클래스의 주목적
+    //페이징을 처리하기 위해서 , 앞단 (화면)에서 파라미터 정보를 보내는데,
+    //이것 하나의 양식 폼에 담아두기
+    //화면에서 전달한 파라미터를 담아두는 클래스 DTO
 
     @Builder.Default
     @Min(value = 1)

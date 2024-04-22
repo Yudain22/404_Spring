@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.zerock.springex.domain.TodoVO;
+import org.zerock.springex.dto.PageRequestDTO;
+import sun.jvm.hotspot.debugger.Page;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -44,5 +46,18 @@ public class TodoMapperTsets {
     public void testSelectOne(){
         TodoVO todoVO = todoMapper.selectOne(3);
         log.info(todoVO);
+    }
+
+    @Test
+    public void testSelectList(){
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .build();
+
+        //반환타입 TodoVo라는 List
+        List<TodoVO> voList = todoMapper.selectList(pageRequestDTO);
+
+        voList.forEach(vo -> log.info(vo));
     }
 }

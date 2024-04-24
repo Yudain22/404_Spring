@@ -53,6 +53,37 @@
                 </nav>
             </div>
         </div>
+            <div class="row Content">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Search</h5>
+                            <form action="todo/list" method="get">
+                                <input type="hidden" name="size" value="${pageRequestDTO.size}">
+                                <div class="mb-3">
+                                    <input type="checkbox" name="finished" ${pageRequestDTO.finished?"checked":""}> 완료여부
+                                </div>
+                                <div class="mb-3">
+                                    <input type="checkbox" name="types" value="t" ${pageRequestDTO.checkType("t")?"checked":""}>제목
+                                    <input type="checkbox" name="types" value="w" ${pageRequestDTO.checkType("w")?"checked":""}>작성자
+                                    <input type="text" name="keyword" class="form-control" value='<c:out value="${pageRequestDTO.keyword}"/>'>
+                                </div>
+                                <div class="input-group mb-3 dueDateDiv">
+                                    <input type="date" name="from" value="form-control" value="${pageRequestDTO.from}">
+                                    <input type="date" name="to" value="form-control" value="${pageRequestDTO.to}">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="float-end">
+                                        <button class="btn btn-primary" type="submit">Search</button>
+                                        <button class="btn btn-info clearBtn" type="reset">Clear</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <%--            <h1>Content</h1>--%>
+            </div>
         <div class="row content">
             <div class="col">
                 <div class="card">
@@ -125,6 +156,10 @@
                                     //현재 페이지의 번호를 가져오기
                                     const num = target.getAttribute("data-num")
 
+                                    const formObj = document.querySelector("form")
+
+                                    formObj.innerHTML += `<input type="hidden" name="page" value='\${num}'>`formObj.submit;
+
                                     // 해당 페이지로 이동하기.
                                     // 스프링의 벡엔드 서버에 호출하면, 서버가 응답해서,
                                     // 해당 페이지로 리다이렉트 함. page 값과, size 을가지고
@@ -133,6 +168,12 @@
                                     // 화면은 해당 인스턴스 이용해서, 화면에 출력하는 형식.
                                     self.location = `/todo/list?page=\${num}`
                                 }, false)
+
+                                document.querySelector(".clearBtn").addEventListener("click".function(e){
+                                    e.preventDefault()
+                                    e.stopPropagation()
+                                    self.location = '/todo/list'
+                                },false)
                             </script>
                             </nav>
                         </div>
@@ -143,9 +184,7 @@
         </div>
     </div>
 </div>
-<div class="row Content">
-    <%--            <h1>Content</h1>--%>
-</div>
+
 <div class="row footer">
     <%--                <h1>Footer</h1>--%>
     <div class="row fixed-bottom" style="z-index: -100">

@@ -158,7 +158,8 @@
 
                                     const formObj = document.querySelector("form")
 
-                                    formObj.innerHTML += `<input type="hidden" name="page" value='\${num}'>`formObj.submit;
+                                    formObj.innerHTML += `<input type="hidden" name="page" value='\${num}'>`
+                                    formObj.submit;
 
                                     // 해당 페이지로 이동하기.
                                     // 스프링의 벡엔드 서버에 호출하면, 서버가 응답해서,
@@ -169,7 +170,7 @@
                                     self.location = `/todo/list?page=\${num}`
                                 }, false)
 
-                                document.querySelector(".clearBtn").addEventListener("click".function(e){
+                                document.querySelector(".clearBtn").addEventListener("click", function (e) {
                                     e.preventDefault()
                                     e.stopPropagation()
                                     self.location = '/todo/list'
